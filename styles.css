@@ -71,6 +71,10 @@ button:hover {
     background-color: rgb(47, 200, 47);
 }
 
+button:active {
+    background-color: rgb(11, 114, 11);
+}
+
 footer {
     width: 100%;
     padding: 20px 0;
