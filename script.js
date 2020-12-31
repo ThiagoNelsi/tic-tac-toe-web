@@ -1,13 +1,16 @@
 const restartButton = document.getElementById('btn-restart');
+const difficultyInput = document.getElementById('difficulty'); 
 const playerSign = 'x';
 const robotSign = 'o';
-let robotTurn = Boolean(Math.floor(Math.random() * 2));
-let winner = null;
 const robotTurnEvent = new CustomEvent('robotTurn');
 const tableFull = new CustomEvent('tableFull');
 const game = new CustomEvent('game');
 
-const difficulty = 1000;
+let robotTurn = Boolean(Math.floor(Math.random() * 2));
+let winner = null;
+let difficultyIndex = difficultyInput.value;
+
+const difficultyValues = [1, 10, 1000, 10000];
 
 class Table {
 
@@ -131,7 +134,7 @@ class Robot {
             
             copyTable[availableSquares[i]] = robotTurn ? robotSign : playerSign;
 
-            for (let j = 0; j < difficulty; j++) {
+            for (let j = 0; j < difficultyValues[difficultyIndex]; j++) {
 
                 let testTable = [...copyTable];
 
@@ -185,9 +188,13 @@ const robot = new Robot();
 restartButton.addEventListener('click', () => {
    window.dispatchEvent(game); 
 });
+
+difficultyInput.addEventListener('change', () => difficultyIndex = difficultyInput.value);
+
 window.addEventListener('robotTurn', () => {
     robot.play(table, robotSign)
 });
+
 window.addEventListener('endOfGame', ({ detail }) => {
     alert((detail.winner === 'o' ? 'Robot' : 'You') + ' won!!!');
     table.block()
